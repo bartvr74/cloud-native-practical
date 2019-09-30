@@ -8,7 +8,6 @@ import java.util.UUID;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -16,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class CocktailController {
 
     @GetMapping
-    public @ResponseBody Resources<CocktailResource> get(@RequestParam String search) {
+    public Resources<CocktailResource> get(@RequestParam String search) {
         return new Resources<>(getDummyResources());
     }
 
