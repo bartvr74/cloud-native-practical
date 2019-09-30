@@ -31,4 +31,4 @@ build/
 .vscode/
 
 ### Coach specific
-.mvn/
+.mvn/wrapper/
