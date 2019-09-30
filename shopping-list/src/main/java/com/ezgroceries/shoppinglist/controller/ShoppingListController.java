@@ -16,12 +16,11 @@ public class ShoppingListController {
 
     @PostMapping
     public ResponseEntity<ShoppingListResource> createShoppingList(@RequestBody ShoppingListInput shoppingListInput) {
-        ShoppingListResource newShoppingListResource = createNewShoppingList(shoppingListInput);
+        ShoppingListResource newShoppingListResource = createNewDummyShoppingList(shoppingListInput);
         return new ResponseEntity<>(newShoppingListResource, HttpStatus.CREATED);
     }
 
-    private ShoppingListResource createNewShoppingList(ShoppingListInput shoppingListInput) {
-        // dummy for now
+    private ShoppingListResource createNewDummyShoppingList(ShoppingListInput shoppingListInput) {
         return new ShoppingListResource(
                 UUID.randomUUID(),
                 shoppingListInput.getName()
