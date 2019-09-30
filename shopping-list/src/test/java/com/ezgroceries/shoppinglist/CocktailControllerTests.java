@@ -30,4 +30,6 @@ public class CocktailControllerTests {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
     }
 
+    // todo add other tests and check actual json output data
+
 }
