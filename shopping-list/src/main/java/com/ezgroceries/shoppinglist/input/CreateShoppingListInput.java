@@ -1,6 +1,6 @@
-package com.ezgroceries.shoppinglist.model;
+package com.ezgroceries.shoppinglist.input;
 
-public class ShoppingListInput {
+public class CreateShoppingListInput {
 
     private String name;
 
