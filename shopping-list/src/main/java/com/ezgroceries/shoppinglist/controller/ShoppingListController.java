@@ -33,8 +33,17 @@ public class ShoppingListController {
     }
 
     @GetMapping("/shopping-lists/{shoppingListId}")
-    public ShoppingListResource get(@PathVariable(name = "shoppingListId") UUID shoppingListId) {
+    public ShoppingListResource findShoppingList(@PathVariable(name = "shoppingListId") UUID shoppingListId) {
         return getShoppingList(shoppingListId);
+    }
+
+    @GetMapping("/shopping-lists")
+    public List<ShoppingListResource> getAllShoppingLists() {
+        return Arrays.asList(
+                getShoppingList(UUID.randomUUID()),
+                getShoppingList(UUID.randomUUID()),
+                getShoppingList(UUID.randomUUID())
+        );
     }
 
     private ShoppingListResource newShoppingList(CreateShoppingListInput shoppingListInput) {
