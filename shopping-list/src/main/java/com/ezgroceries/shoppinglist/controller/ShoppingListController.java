@@ -20,16 +20,19 @@ import org.springframework.web.bind.annotation.RestController;
 public class ShoppingListController {
 
     @PostMapping("/shopping-lists")
-    public ResponseEntity<ShoppingListResource> createShoppingList(@RequestBody CreateShoppingListInput createShoppingListInput) {
-        ShoppingListResource newShoppingListResource = newShoppingList(createShoppingListInput);
-        return new ResponseEntity<>(newShoppingListResource, HttpStatus.CREATED);
+    public ResponseEntity<ShoppingListResource> createShoppingList(
+            @RequestBody CreateShoppingListInput createShoppingListInput) {
+        ShoppingListResource newShoppingList = newShoppingList(createShoppingListInput);
+        return new ResponseEntity<>(newShoppingList, HttpStatus.CREATED);
     }
 
     @PostMapping("/shopping-lists/{shoppingListId}/cocktails")
-    public ResponseEntity<List<CocktailReference>> addCocktailToShoppingList(@PathVariable(name = "shoppingListId") UUID shoppingListId,
+    public ResponseEntity<List<CocktailReference>> addCocktailReferences(
+            @PathVariable(name = "shoppingListId") UUID shoppingListId,
             @RequestBody List<CocktailReference> cocktailReferences) {
-        List<CocktailReference> addedCocktails = linkCocktailToShoppingList(shoppingListId, cocktailReferences);
-        return new ResponseEntity<>(addedCocktails, HttpStatus.OK);
+        List<CocktailReference> addedCocktailReferences =
+                addCocktailReferencesToShoppingList(shoppingListId, cocktailReferences);
+        return new ResponseEntity<>(addedCocktailReferences, HttpStatus.OK);
     }
 
     @GetMapping("/shopping-lists/{shoppingListId}")
@@ -38,13 +41,11 @@ public class ShoppingListController {
     }
 
     @GetMapping("/shopping-lists")
-    public List<ShoppingListResource> getAllShoppingLists() {
-        return Arrays.asList(
-                getShoppingList(UUID.randomUUID()),
-                getShoppingList(UUID.randomUUID()),
-                getShoppingList(UUID.randomUUID())
-        );
+    public List<ShoppingListResource> getShoppingLists() {
+        return getAllShoppingList();
     }
+
+    // todo dummy data for mobile team, replace with services / repositories later on
 
     private ShoppingListResource newShoppingList(CreateShoppingListInput shoppingListInput) {
         return new ShoppingListResource(
@@ -53,17 +54,25 @@ public class ShoppingListController {
         );
     }
 
-    private List<CocktailReference> linkCocktailToShoppingList(UUID shoppingListId,
+    private ShoppingListResource getShoppingList(UUID shoppingListId) {
+        return new ShoppingListResource(
+                UUID.fromString(shoppingListId.toString()), "My shop list",
+                Arrays.asList("Tequila", "Triple sec", "Lime juice", "Salt"));
+    }
+
+    private List<CocktailReference> addCocktailReferencesToShoppingList(UUID shoppingListId,
             List<CocktailReference> cocktailReferences) {
         CocktailReference addedCocktail = new CocktailReference();
         addedCocktail.setCocktailId(cocktailReferences.get(0).getCocktailId());
         return Arrays.asList(addedCocktail);
     }
 
-    private ShoppingListResource getShoppingList(UUID shoppingListId) {
-        return new ShoppingListResource(
-                        UUID.fromString(shoppingListId.toString()), "My shop list",
-                        Arrays.asList("Tequila", "Triple sec", "Lime juice", "Salt"));
+    private List<ShoppingListResource> getAllShoppingList() {
+        return Arrays.asList(
+                getShoppingList(UUID.randomUUID()),
+                getShoppingList(UUID.randomUUID()),
+                getShoppingList(UUID.randomUUID())
+        );
     }
 
 }
