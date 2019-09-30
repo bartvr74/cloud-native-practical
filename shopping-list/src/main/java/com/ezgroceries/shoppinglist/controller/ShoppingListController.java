@@ -53,7 +53,7 @@ public class ShoppingListController {
 
     private ShoppingListResource getShoppingList(UUID shoppingListId) {
         return new ShoppingListResource(
-                        UUID.fromString("23b3d85a-3928-41c0-a533-6538a71e17c4"), "My shop list",
+                        UUID.fromString(shoppingListId.toString()), "My shop list",
                         Arrays.asList("Tequila", "Triple sec", "Lime juice", "Salt"));
     }
 
