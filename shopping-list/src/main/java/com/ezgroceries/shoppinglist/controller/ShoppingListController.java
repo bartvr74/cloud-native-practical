@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.UUID;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -31,6 +32,11 @@ public class ShoppingListController {
         return new ResponseEntity<>(addedCocktails, HttpStatus.OK);
     }
 
+    @GetMapping("/shopping-lists/{shoppingListId}")
+    public ShoppingListResource get(@PathVariable(name = "shoppingListId") UUID shoppingListId) {
+        return getShoppingList(shoppingListId);
+    }
+
     private ShoppingListResource newShoppingList(CreateShoppingListInput shoppingListInput) {
         return new ShoppingListResource(
                 UUID.randomUUID(),
@@ -43,6 +49,12 @@ public class ShoppingListController {
         CocktailReference addedCocktail = new CocktailReference();
         addedCocktail.setCocktailId(cocktailReferences.get(0).getCocktailId());
         return Arrays.asList(addedCocktail);
+    }
+
+    private ShoppingListResource getShoppingList(UUID shoppingListId) {
+        return new ShoppingListResource(
+                        UUID.fromString("23b3d85a-3928-41c0-a533-6538a71e17c4"), "My shop list",
+                        Arrays.asList("Tequila", "Triple sec", "Lime juice", "Salt"));
     }
 
 }
