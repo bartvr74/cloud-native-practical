@@ -1,6 +1,6 @@
 package com.ezgroceries.shoppinglist.controller;
 
-import com.ezgroceries.shoppinglist.contract.CreateShoppingListInput;
+import com.ezgroceries.shoppinglist.contract.CreateShoppingList;
 import com.ezgroceries.shoppinglist.model.CocktailReference;
 import com.ezgroceries.shoppinglist.model.ShoppingListResource;
 import java.util.Arrays;
@@ -21,8 +21,8 @@ public class ShoppingListController {
 
     @PostMapping("/shopping-lists")
     public ResponseEntity<ShoppingListResource> createShoppingList(
-            @RequestBody CreateShoppingListInput createShoppingListInput) {
-        ShoppingListResource newShoppingList = newShoppingList(createShoppingListInput);
+            @RequestBody CreateShoppingList createShoppingList) {
+        ShoppingListResource newShoppingList = newShoppingList(createShoppingList);
         return new ResponseEntity<>(newShoppingList, HttpStatus.CREATED);
     }
 
@@ -47,7 +47,7 @@ public class ShoppingListController {
 
     // todo dummy data for mobile team, replace with services / repositories later on
 
-    private ShoppingListResource newShoppingList(CreateShoppingListInput shoppingListInput) {
+    private ShoppingListResource newShoppingList(CreateShoppingList shoppingListInput) {
         return new ShoppingListResource(
                 UUID.randomUUID(),
                 shoppingListInput.getName()
