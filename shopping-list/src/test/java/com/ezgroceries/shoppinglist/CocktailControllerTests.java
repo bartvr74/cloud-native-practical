@@ -5,7 +5,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.ezgroceries.shoppinglist.controller.CocktailController;
 import com.ezgroceries.shoppinglist.model.CocktailResource;
-import com.ezgroceries.shoppinglist.model.Resources;
+import com.ezgroceries.shoppinglist.contract.Resources;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.UUID;
@@ -34,8 +34,12 @@ public class CocktailControllerTests {
     @Test
     public void searchForCocktails() throws Exception
     {
+        // GIVEN
+        String search = "Russian";
+
+        // WHEN
         ResultActions resultActions = mvc.perform(MockMvcRequestBuilders
-                .get("/cocktails?search=Russian")
+                .get(String.format("/cocktails?search=%s", search))
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
@@ -45,15 +49,12 @@ public class CocktailControllerTests {
         Resources<CocktailResource> cocktailResources =
                 objectMapper.readValue(jsonContent, new TypeReference<Resources<CocktailResource>>() {});
 
-        System.out.println(jsonContent);
-
+        // THEN
         Assert.assertNotNull(cocktailResources);
         Assert.assertNotNull(cocktailResources.getResources());
         Assert.assertEquals(2, cocktailResources.getResources().size());
         Assert.assertEquals(UUID.fromString("23b3d85a-3928-41c0-a533-6538a71e17c4"),
                 cocktailResources.getResources().get(0).getId());
     }
-
-    // todo add other tests and check other actual json output data
 
 }

@@ -1,4 +1,4 @@
-package com.ezgroceries.shoppinglist.model;
+package com.ezgroceries.shoppinglist.contract;
 
 import java.util.List;
 

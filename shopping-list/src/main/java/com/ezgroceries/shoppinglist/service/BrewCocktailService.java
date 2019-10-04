@@ -7,6 +7,7 @@ import com.ezgroceries.shoppinglist.repository.CocktailDbClient;
 import io.micrometer.core.instrument.util.StringUtils;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +27,7 @@ public class BrewCocktailService {
         List<CocktailResource> cocktailResources = new ArrayList<>();
         for(DrinkResource drinkResource : drinkResources) {
             CocktailResource cocktailResource = new CocktailResource();
-            cocktailResource.setId(drinkResource.getIdDrink());
+            cocktailResource.setId(UUID.randomUUID());
             cocktailResource.setDescription(drinkResource.getStrDrink());
             cocktailResource.setInstruction(drinkResource.getStrInstructions());
             cocktailResource.setUrl(drinkResource.getStrDrinkThumb());
