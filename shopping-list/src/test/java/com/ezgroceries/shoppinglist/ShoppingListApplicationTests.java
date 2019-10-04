@@ -30,7 +30,7 @@ public class ShoppingListApplicationTests {
 	public void contextLoads() {
 	}
 
-	@Test
+	@Test // broad testing with actual the cocktail db http call
 	public void searchForCocktails() throws Exception
 	{
 		// GIVEN

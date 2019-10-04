@@ -38,7 +38,6 @@ public class ShoppingListControllerTests {
     @MockBean
     private CocktailDbClient cocktailDbClient; // mock remote db so service logic is also tested
 
-
     @Test
     public void createShoppingList() throws Exception
     {
