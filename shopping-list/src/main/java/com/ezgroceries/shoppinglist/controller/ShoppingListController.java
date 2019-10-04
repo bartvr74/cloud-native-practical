@@ -19,6 +19,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(produces = "application/json")
 public class ShoppingListController {
 
+    // todo dummy data for mobile team
+    // todo replace with services / repositories later on similar to cocktail controller
+
     @PostMapping("/shopping-lists")
     public ResponseEntity<ShoppingListResource> createShoppingList(
             @RequestBody CreateShoppingList createShoppingList) {
@@ -44,8 +47,6 @@ public class ShoppingListController {
     public List<ShoppingListResource> getShoppingLists() {
         return getAllShoppingList();
     }
-
-    // todo dummy data for mobile team, replace with services / repositories later on
 
     private ShoppingListResource newShoppingList(CreateShoppingList shoppingListInput) {
         return new ShoppingListResource(
