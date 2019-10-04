@@ -6,6 +6,10 @@ public class Resources<T> {
 
     private List<T> resources;
 
+    public Resources() {
+        super();
+    }
+
     public Resources(List<T> resources) {
         this.resources = resources;
     }
