@@ -22,7 +22,7 @@ public class ShoppingListService {
     public ShoppingListResource get(UUID listId) {
         return new ShoppingListResource(
                 listId,
-                "My shop list",
+                "My shopping list",
                 Arrays.asList("Tequila", "Triple sec", "Lime juice", "Salt"));
     }
 
