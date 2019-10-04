@@ -2,6 +2,8 @@ package com.ezgroceries.shoppinglist;
 
 import com.ezgroceries.shoppinglist.contract.Resources;
 import com.ezgroceries.shoppinglist.contract.CocktailResource;
+import com.ezgroceries.shoppinglist.contract.ShoppingListResource;
+import java.util.UUID;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -30,7 +32,7 @@ public class ShoppingListApplicationTests {
 	public void contextLoads() {
 	}
 
-	@Test
+	@Test // broad testing with actual the cocktail db http call
 	public void searchForCocktails() throws Exception
 	{
 		// GIVEN
@@ -52,6 +54,21 @@ public class ShoppingListApplicationTests {
 			Assert.assertNotNull(cocktailResource.getDescription());
 			Assert.assertTrue(cocktailResource.getDescription().contains(search));
 		}
+	}
+
+	@Test // broad testing with actual the cocktail db http call
+	public void getSpecificShoppingList() throws Exception
+	{
+		// GIVEN
+		UUID listId = UUID.randomUUID();
+
+		// WHEN
+		ShoppingListResource shoppingListResource =
+				restTemplate.getForObject("/shopping-lists/{listId}", ShoppingListResource.class, listId);
+
+		// THEN
+		Assert.assertNotNull(shoppingListResource);
+		Assert.assertEquals(listId, shoppingListResource.getId());
 	}
 
 }
