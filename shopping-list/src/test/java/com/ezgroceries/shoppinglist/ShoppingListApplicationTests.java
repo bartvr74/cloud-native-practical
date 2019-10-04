@@ -1,7 +1,7 @@
 package com.ezgroceries.shoppinglist;
 
 import com.ezgroceries.shoppinglist.contract.Resources;
-import com.ezgroceries.shoppinglist.model.CocktailResource;
+import com.ezgroceries.shoppinglist.contract.CocktailResource;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;

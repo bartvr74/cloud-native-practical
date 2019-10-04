@@ -7,7 +7,7 @@ import com.ezgroceries.shoppinglist.contract.Resources;
 import com.ezgroceries.shoppinglist.controller.CocktailController;
 import com.ezgroceries.shoppinglist.model.CocktailDbResponse;
 import com.ezgroceries.shoppinglist.model.CocktailDbResponse.DrinkResource;
-import com.ezgroceries.shoppinglist.model.CocktailResource;
+import com.ezgroceries.shoppinglist.contract.CocktailResource;
 import com.ezgroceries.shoppinglist.repository.CocktailDbClient;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;

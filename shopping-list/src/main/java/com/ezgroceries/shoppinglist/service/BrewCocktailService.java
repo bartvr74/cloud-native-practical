@@ -2,7 +2,7 @@ package com.ezgroceries.shoppinglist.service;
 
 import com.ezgroceries.shoppinglist.model.CocktailDbResponse;
 import com.ezgroceries.shoppinglist.model.CocktailDbResponse.DrinkResource;
-import com.ezgroceries.shoppinglist.model.CocktailResource;
+import com.ezgroceries.shoppinglist.contract.CocktailResource;
 import com.ezgroceries.shoppinglist.repository.CocktailDbClient;
 import io.micrometer.core.instrument.util.StringUtils;
 import java.util.ArrayList;
