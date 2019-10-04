@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class ShoppingListService {
 
-    // todo replace with crud repositories
+    // todo replace with crud repositories and/or in mem db
 
     public ShoppingListResource create(String listName) {
         return new ShoppingListResource(
