@@ -40,7 +40,7 @@ public class CocktailControllerTests {
     private ObjectMapper objectMapper;
 
     @MockBean
-    private CocktailDbClient cocktailDbClient;
+    private CocktailDbClient cocktailDbClient; // mock remote db so service logic is also tested
 
     @Before
     public void prepareMocking() {
