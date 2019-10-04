@@ -3,17 +3,10 @@ package com.ezgroceries.shoppinglist.model;
 import java.util.List;
 import lombok.Data;
 
+@Data
 public class CocktailDbResponse {
 
     private List<DrinkResource> drinks;
-
-    public List<DrinkResource> getDrinks() {
-        return drinks;
-    }
-
-    public void setDrinks(List<DrinkResource> drinks) {
-        this.drinks = drinks;
-    }
 
     @Data
     public static class DrinkResource {

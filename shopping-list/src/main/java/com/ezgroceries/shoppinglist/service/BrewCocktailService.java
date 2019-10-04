@@ -33,7 +33,7 @@ public class BrewCocktailService {
             cocktailResource.setUrl(drinkResource.getStrDrinkThumb());
             cocktailResource.setTypeOfGlass(drinkResource.getStrGlass());
 
-            // why did db cocktail not return a list of ordered ingredients ? alt is reflection.
+            // why did db cocktail not return a list of ordered ingredients :-) ? alt is reflection.
             List<String> ingredients = new ArrayList<>();
             addIngredient(ingredients, drinkResource.getStrIngredient1());
             addIngredient(ingredients, drinkResource.getStrIngredient2());
