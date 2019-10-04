@@ -1,4 +1,4 @@
-package com.ezgroceries.shoppinglist.input;
+package com.ezgroceries.shoppinglist.contract;
 
 public class CreateShoppingListInput {
 

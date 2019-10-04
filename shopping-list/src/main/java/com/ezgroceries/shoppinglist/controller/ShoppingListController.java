@@ -1,6 +1,6 @@
 package com.ezgroceries.shoppinglist.controller;
 
-import com.ezgroceries.shoppinglist.input.CreateShoppingListInput;
+import com.ezgroceries.shoppinglist.contract.CreateShoppingListInput;
 import com.ezgroceries.shoppinglist.model.CocktailReference;
 import com.ezgroceries.shoppinglist.model.ShoppingListResource;
 import java.util.Arrays;
