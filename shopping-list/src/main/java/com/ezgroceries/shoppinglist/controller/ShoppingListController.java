@@ -1,8 +1,8 @@
 package com.ezgroceries.shoppinglist.controller;
 
 import com.ezgroceries.shoppinglist.contract.CreateShoppingList;
-import com.ezgroceries.shoppinglist.model.CocktailReference;
-import com.ezgroceries.shoppinglist.model.ShoppingListResource;
+import com.ezgroceries.shoppinglist.contract.CocktailReference;
+import com.ezgroceries.shoppinglist.contract.ShoppingListResource;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
