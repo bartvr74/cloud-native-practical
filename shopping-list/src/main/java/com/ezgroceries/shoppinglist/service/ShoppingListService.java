@@ -21,7 +21,8 @@ public class ShoppingListService {
 
     public ShoppingListResource get(UUID listId) {
         return new ShoppingListResource(
-                UUID.fromString(listId.toString()), "My shop list",
+                listId,
+                "My shop list",
                 Arrays.asList("Tequila", "Triple sec", "Lime juice", "Salt"));
     }
 
