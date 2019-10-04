@@ -12,6 +12,10 @@ public class CocktailResource {
     private String url;
     private List<String> ingredients;
 
+    public CocktailResource() {
+        super();
+    }
+
     public CocktailResource(UUID id, String description, String typeOfGlass,
             String instruction, String url, List<String> ingredients) {
         this.id = id;
