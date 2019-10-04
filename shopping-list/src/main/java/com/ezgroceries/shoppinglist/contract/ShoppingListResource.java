@@ -1,8 +1,12 @@
-package com.ezgroceries.shoppinglist.model;
+package com.ezgroceries.shoppinglist.contract;
 
 import java.util.List;
 import java.util.UUID;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+@Getter
+@NoArgsConstructor
 public class ShoppingListResource {
 
     private UUID id;
@@ -17,18 +21,6 @@ public class ShoppingListResource {
     public ShoppingListResource(UUID id, String name, List<String> ingredients) {
         this(id, name);
         this.ingredients = ingredients;
-    }
-
-    public UUID getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public List<String> getIngredients() {
-        return ingredients;
     }
 
 }
