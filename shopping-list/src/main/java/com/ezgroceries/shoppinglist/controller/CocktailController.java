@@ -13,16 +13,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "/cocktails", produces = "application/json")
 public class CocktailController {
 
-    private CocktailService brewCocktailService;
+    private CocktailService cocktailService;
 
     @Autowired
-    public CocktailController(CocktailService brewCocktailService) {
-        this.brewCocktailService = brewCocktailService;
+    public CocktailController(CocktailService cocktailService) {
+        this.cocktailService = cocktailService;
     }
 
     @GetMapping
     public Resources<CocktailResource> get(@RequestParam String search) {
-        return new Resources<>(brewCocktailService.searchCocktails(search));
+        return new Resources<>(cocktailService.searchCocktails(search));
     }
 
 }
