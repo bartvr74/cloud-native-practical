@@ -1,4 +1,4 @@
-package com.ezgroceries.shoppinglist.internal.cocktail;
+package com.ezgroceries.shoppinglist.internal.shoppinglist;
 
 import java.util.UUID;
 import javax.persistence.Column;
