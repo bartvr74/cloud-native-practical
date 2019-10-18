@@ -1,4 +1,4 @@
-package com.ezgroceries.shoppinglist.contract;
+package com.ezgroceries.shoppinglist.dto;
 
 import java.util.List;
 import java.util.UUID;

@@ -1,8 +1,8 @@
 package com.ezgroceries.shoppinglist.controller;
 
-import com.ezgroceries.shoppinglist.contract.CocktailReference;
-import com.ezgroceries.shoppinglist.contract.CreateShoppingList;
-import com.ezgroceries.shoppinglist.contract.ShoppingListResource;
+import com.ezgroceries.shoppinglist.dto.CocktailReference;
+import com.ezgroceries.shoppinglist.dto.CreateShoppingList;
+import com.ezgroceries.shoppinglist.dto.ShoppingListResource;
 import com.ezgroceries.shoppinglist.service.ShoppingListService;
 import java.util.List;
 import java.util.UUID;
@@ -48,7 +48,7 @@ public class ShoppingListController {
 
     @GetMapping("/shopping-lists")
     public List<ShoppingListResource> getShoppingLists() {
-        return shoppingListService.lists();
+        return shoppingListService.getAll();
     }
 
 }

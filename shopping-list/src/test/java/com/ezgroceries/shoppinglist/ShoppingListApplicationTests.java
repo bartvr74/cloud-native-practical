@@ -1,8 +1,11 @@
 package com.ezgroceries.shoppinglist;
 
-import com.ezgroceries.shoppinglist.contract.Resources;
-import com.ezgroceries.shoppinglist.contract.CocktailResource;
-import com.ezgroceries.shoppinglist.contract.ShoppingListResource;
+import com.ezgroceries.shoppinglist.dto.CocktailResource;
+import com.ezgroceries.shoppinglist.dto.CreateShoppingList;
+import com.ezgroceries.shoppinglist.dto.Resources;
+import com.ezgroceries.shoppinglist.dto.ShoppingListResource;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.UUID;
 import org.junit.Assert;
 import org.junit.Test;
@@ -15,14 +18,13 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @EnableAutoConfiguration
-@ContextConfiguration
 public class ShoppingListApplicationTests {
 
 	@Autowired
@@ -57,10 +59,10 @@ public class ShoppingListApplicationTests {
 	}
 
 	@Test // broad testing with actual the cocktail db http call
-	public void getSpecificShoppingList() throws Exception
+	public void findShoppingList() throws Exception
 	{
 		// GIVEN
-		UUID listId = UUID.randomUUID();
+		UUID listId = createShoppingList("SpringBootLaunchParty");
 
 		// WHEN
 		ShoppingListResource shoppingListResource =
@@ -69,6 +71,26 @@ public class ShoppingListApplicationTests {
 		// THEN
 		Assert.assertNotNull(shoppingListResource);
 		Assert.assertEquals(listId, shoppingListResource.getId());
+	}
+
+	private UUID createShoppingList(String shoppingListName) throws URISyntaxException  {
+		// input shopping list creation
+		CreateShoppingList createShoppingList = new CreateShoppingList();
+		createShoppingList.setName(shoppingListName);
+
+		// fire request
+		RequestEntity<CreateShoppingList> requestEntity = new RequestEntity<>(
+				createShoppingList, HttpMethod.POST, new URI("/shopping-lists")
+		);
+
+		ResponseEntity<ShoppingListResource> responseEntity =
+				restTemplate.exchange(requestEntity, new ParameterizedTypeReference<ShoppingListResource>() {});
+
+		// basic check output
+		Assert.assertNotNull(responseEntity.getBody());
+		System.out.println(responseEntity.getBody());
+		Assert.assertNotNull(responseEntity.getBody().getId());
+		return responseEntity.getBody().getId();
 	}
 
 }
