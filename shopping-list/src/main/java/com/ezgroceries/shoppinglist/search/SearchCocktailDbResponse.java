@@ -1,10 +1,10 @@
-package com.ezgroceries.shoppinglist.model;
+package com.ezgroceries.shoppinglist.search;
 
 import java.util.List;
 import lombok.Data;
 
 @Data
-public class CocktailDbResponse {
+public class SearchCocktailDbResponse {
 
     private List<DrinkResource> drinks;
 

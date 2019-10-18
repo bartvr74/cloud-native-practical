@@ -1,9 +1,9 @@
 package com.ezgroceries.shoppinglist.service;
 
-import com.ezgroceries.shoppinglist.model.CocktailDbResponse;
-import com.ezgroceries.shoppinglist.model.CocktailDbResponse.DrinkResource;
-import com.ezgroceries.shoppinglist.contract.CocktailResource;
-import com.ezgroceries.shoppinglist.repository.CocktailDbClient;
+import com.ezgroceries.shoppinglist.search.SearchCocktailDbResponse;
+import com.ezgroceries.shoppinglist.search.SearchCocktailDbResponse.DrinkResource;
+import com.ezgroceries.shoppinglist.dto.CocktailResource;
+import com.ezgroceries.shoppinglist.search.SearchCocktailDbClient;
 import io.micrometer.core.instrument.util.StringUtils;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,15 +14,15 @@ import org.springframework.stereotype.Service;
 @Service
 public class BrewCocktailService {
 
-    private CocktailDbClient cocktailDbClient;
+    private SearchCocktailDbClient cocktailDbClient;
 
     @Autowired
-    public BrewCocktailService(CocktailDbClient cocktailDbClient) {
+    public BrewCocktailService(SearchCocktailDbClient cocktailDbClient) {
         this.cocktailDbClient = cocktailDbClient;
     }
 
     public List<CocktailResource> searchCocktails(String search) {
-        CocktailDbResponse cocktailDbResponse = cocktailDbClient.searchCocktails(search);
+        SearchCocktailDbResponse cocktailDbResponse = cocktailDbClient.searchCocktails(search);
         List<DrinkResource> drinkResources = cocktailDbResponse.getDrinks();
         List<CocktailResource> cocktailResources = new ArrayList<>();
         for(DrinkResource drinkResource : drinkResources) {

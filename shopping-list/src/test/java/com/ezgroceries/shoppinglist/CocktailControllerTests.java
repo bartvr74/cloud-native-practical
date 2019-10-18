@@ -3,12 +3,12 @@ package com.ezgroceries.shoppinglist;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.ezgroceries.shoppinglist.contract.Resources;
 import com.ezgroceries.shoppinglist.controller.CocktailController;
-import com.ezgroceries.shoppinglist.model.CocktailDbResponse;
-import com.ezgroceries.shoppinglist.model.CocktailDbResponse.DrinkResource;
-import com.ezgroceries.shoppinglist.contract.CocktailResource;
-import com.ezgroceries.shoppinglist.repository.CocktailDbClient;
+import com.ezgroceries.shoppinglist.dto.CocktailResource;
+import com.ezgroceries.shoppinglist.dto.Resources;
+import com.ezgroceries.shoppinglist.search.SearchCocktailDbClient;
+import com.ezgroceries.shoppinglist.search.SearchCocktailDbResponse;
+import com.ezgroceries.shoppinglist.search.SearchCocktailDbResponse.DrinkResource;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Arrays;
@@ -18,6 +18,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureDataJpa;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
@@ -31,6 +32,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 @RunWith(SpringRunner.class)
 @WebMvcTest(CocktailController.class)
 @ComponentScan("com.ezgroceries")
+@AutoConfigureDataJpa
 public class CocktailControllerTests {
 
     @Autowired
@@ -40,7 +42,7 @@ public class CocktailControllerTests {
     private ObjectMapper objectMapper;
 
     @MockBean
-    private CocktailDbClient cocktailDbClient; // mock remote db so service logic is also tested
+    private SearchCocktailDbClient cocktailDbClient; // mock remote db so service logic is also tested
 
     @Before
     public void prepareMocking() {
@@ -77,7 +79,7 @@ public class CocktailControllerTests {
         Assert.assertTrue(cocktailResource.getIngredients().contains("Tequila"));
     }
 
-    private CocktailDbResponse searchCocktailsDummyData() {
+    private SearchCocktailDbResponse searchCocktailsDummyData() {
         DrinkResource drinkResource = new DrinkResource();
         drinkResource.setIdDrink("foobar");
         drinkResource.setStrDrink("Margarita");
@@ -85,7 +87,7 @@ public class CocktailControllerTests {
         drinkResource.setStrGlass("Cocktail glass");
         drinkResource.setStrIngredient1("Tequila");
 
-        CocktailDbResponse cocktailDbResponse = new CocktailDbResponse();
+        SearchCocktailDbResponse cocktailDbResponse = new SearchCocktailDbResponse();
         cocktailDbResponse.setDrinks(Arrays.asList(drinkResource));
         return cocktailDbResponse;
     }

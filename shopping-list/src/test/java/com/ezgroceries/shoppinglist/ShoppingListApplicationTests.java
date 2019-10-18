@@ -1,8 +1,8 @@
 package com.ezgroceries.shoppinglist;
 
-import com.ezgroceries.shoppinglist.contract.Resources;
-import com.ezgroceries.shoppinglist.contract.CocktailResource;
-import com.ezgroceries.shoppinglist.contract.ShoppingListResource;
+import com.ezgroceries.shoppinglist.dto.CocktailResource;
+import com.ezgroceries.shoppinglist.dto.Resources;
+import com.ezgroceries.shoppinglist.dto.ShoppingListResource;
 import java.util.UUID;
 import org.junit.Assert;
 import org.junit.Test;
@@ -16,13 +16,11 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @EnableAutoConfiguration
-@ContextConfiguration
 public class ShoppingListApplicationTests {
 
 	@Autowired

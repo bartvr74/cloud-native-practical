@@ -3,10 +3,10 @@ package com.ezgroceries.shoppinglist;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.ezgroceries.shoppinglist.contract.CreateShoppingList;
-import com.ezgroceries.shoppinglist.contract.ShoppingListResource;
 import com.ezgroceries.shoppinglist.controller.ShoppingListController;
-import com.ezgroceries.shoppinglist.repository.CocktailDbClient;
+import com.ezgroceries.shoppinglist.dto.CreateShoppingList;
+import com.ezgroceries.shoppinglist.dto.ShoppingListResource;
+import com.ezgroceries.shoppinglist.search.SearchCocktailDbClient;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.UUID;
@@ -14,6 +14,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureDataJpa;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
@@ -27,6 +28,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 @RunWith(SpringRunner.class)
 @WebMvcTest(ShoppingListController.class)
 @ComponentScan("com.ezgroceries")
+@AutoConfigureDataJpa
 public class ShoppingListControllerTests {
 
     @Autowired
@@ -36,7 +38,7 @@ public class ShoppingListControllerTests {
     private ObjectMapper objectMapper;
 
     @MockBean
-    private CocktailDbClient cocktailDbClient; // mock remote db so service logic is also tested
+    private SearchCocktailDbClient cocktailDbClient; // mock remote db so service logic is also tested
 
     @Test
     public void createShoppingList() throws Exception
