@@ -41,10 +41,40 @@ public class ShoppingListControllerTests {
     private SearchCocktailDbClient cocktailDbClient; // mock remote db so service logic is also tested
 
     @Test
-    public void createShoppingList() throws Exception
+    public void createShoppingList() throws Exception {
+        UUID listId = createShoppingList("FoodForFun");
+        Assert.assertNotNull(listId);
+    }
+
+    @Test
+    public void findShoppingList() throws Exception
     {
         // GIVEN
-        String shoppingListName = "FoodForFun";
+        UUID listId = createShoppingList("FoodForParty");
+
+        // WHEN
+        ResultActions resultActions = mvc.perform(MockMvcRequestBuilders
+                .get("/shopping-lists/{listId}", listId)
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
+
+        MvcResult mvcResult = resultActions.andReturn();
+        String jsonContent = mvcResult.getResponse().getContentAsString();
+        ShoppingListResource shoppingListResource = objectMapper.
+                readValue(jsonContent, new TypeReference<ShoppingListResource>() {});
+
+        // THEN
+        Assert.assertNotNull(shoppingListResource);
+        Assert.assertNotNull(shoppingListResource.getId());
+        Assert.assertNotNull(shoppingListResource.getName());
+        Assert.assertEquals(listId, shoppingListResource.getId());
+    }
+
+    private UUID createShoppingList(String shoppingListName) throws Exception
+    {
+        // GIVEN
         CreateShoppingList createShoppingList = new CreateShoppingList();
         createShoppingList.setName(shoppingListName);
         String jsonCreateList = objectMapper.writeValueAsString(createShoppingList);
@@ -68,33 +98,9 @@ public class ShoppingListControllerTests {
         Assert.assertNotNull(shoppingListResource.getId());
         Assert.assertNotNull(shoppingListResource.getName());
         Assert.assertEquals(shoppingListName, shoppingListResource.getName());
-    }
 
-
-    @Test
-    public void getShoppingList() throws Exception
-    {
-        // GIVEN
-        UUID listId = UUID.randomUUID();
-
-        // WHEN
-        ResultActions resultActions = mvc.perform(MockMvcRequestBuilders
-                .get("/shopping-lists/{listId}", listId)
-                .accept(MediaType.APPLICATION_JSON)
-                .contentType(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
-
-        MvcResult mvcResult = resultActions.andReturn();
-        String jsonContent = mvcResult.getResponse().getContentAsString();
-        ShoppingListResource shoppingListResource = objectMapper.
-                readValue(jsonContent, new TypeReference<ShoppingListResource>() {});
-
-        // THEN
-        Assert.assertNotNull(shoppingListResource);
-        Assert.assertNotNull(shoppingListResource.getId());
-        Assert.assertNotNull(shoppingListResource.getName());
-        Assert.assertEquals(listId, shoppingListResource.getId());
+        // DONE
+        return shoppingListResource.getId();
     }
 
 }
