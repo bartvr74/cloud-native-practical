@@ -48,7 +48,7 @@ public class ShoppingListController {
 
     @GetMapping("/shopping-lists")
     public List<ShoppingListResource> getShoppingLists() {
-        return shoppingListService.lists();
+        return shoppingListService.getAll();
     }
 
 }
