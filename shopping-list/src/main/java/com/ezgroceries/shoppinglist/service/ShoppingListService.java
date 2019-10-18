@@ -66,6 +66,4 @@ public class ShoppingListService {
         return Arrays.asList(addedCocktailReference);
     }
 
-
-
 }
