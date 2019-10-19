@@ -1,16 +1,16 @@
 package com.ezgroceries.shoppinglist.service;
 
+import com.ezgroceries.shoppinglist.dto.CocktailResource;
 import com.ezgroceries.shoppinglist.internal.cocktail.CocktailEntity;
 import com.ezgroceries.shoppinglist.internal.cocktail.CocktailRepository;
+import com.ezgroceries.shoppinglist.search.SearchCocktailDbClient;
 import com.ezgroceries.shoppinglist.search.SearchCocktailDbResponse;
 import com.ezgroceries.shoppinglist.search.SearchCocktailDbResponse.DrinkResource;
-import com.ezgroceries.shoppinglist.dto.CocktailResource;
-import com.ezgroceries.shoppinglist.search.SearchCocktailDbClient;
 import io.micrometer.core.instrument.util.StringUtils;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,20 +30,7 @@ public class CocktailService {
     public List<CocktailResource> searchCocktails(String search) {
         SearchCocktailDbResponse cocktailDbResponse = searchClient.searchCocktails(search);
         List<DrinkResource> drinkResources = cocktailDbResponse.getDrinks();
-        mergeCocktails(drinkResources);
-        List<CocktailResource> cocktailResources = new ArrayList<>();
-        for(DrinkResource drinkResource : drinkResources) {
-            CocktailResource cocktailResource = new CocktailResource();
-            cocktailResource.setId(UUID.randomUUID());
-            cocktailResource.setDescription(drinkResource.getStrDrink());
-            cocktailResource.setInstruction(drinkResource.getStrInstructions());
-            cocktailResource.setUrl(drinkResource.getStrDrinkThumb());
-            cocktailResource.setTypeOfGlass(drinkResource.getStrGlass());
-            cocktailResource.setIngredients(getIngredients(drinkResource));
-            cocktailResources.add(cocktailResource);
-        }
-
-        return cocktailResources;
+        return mergeCocktails(drinkResources);
     }
 
     public List<CocktailResource> mergeCocktails(List<SearchCocktailDbResponse.DrinkResource> drinks) {
@@ -58,9 +45,10 @@ public class CocktailService {
             CocktailEntity cocktailEntity = existingEntityMap.get(drinkResource.getIdDrink());
             if (cocktailEntity == null) {
                 CocktailEntity newCocktailEntity = new CocktailEntity();
-                newCocktailEntity.setId(UUID.randomUUID());
+                //newCocktailEntity.setId(UUID.randomUUID());
                 newCocktailEntity.setIdDrink(drinkResource.getIdDrink());
                 newCocktailEntity.setName(drinkResource.getStrDrink());
+                newCocktailEntity.setIngredients(new HashSet<>(getIngredients(drinkResource)));
                 cocktailEntity = cocktailRepository.save(newCocktailEntity);
             }
             return cocktailEntity;

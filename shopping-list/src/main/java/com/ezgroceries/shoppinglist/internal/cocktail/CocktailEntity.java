@@ -1,11 +1,14 @@
 package com.ezgroceries.shoppinglist.internal.cocktail;
 
+import com.ezgroceries.shoppinglist.internal.shoppinglist.ShoppingListEntity;
 import java.util.Set;
 import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import lombok.Data;
 
@@ -16,6 +19,7 @@ public class CocktailEntity {
 
     @Id
     @Column(name = "ID")
+    @GeneratedValue
     private UUID id;
 
     @Column(name = "ID_DRINK")
@@ -28,4 +32,6 @@ public class CocktailEntity {
     @Column(name = "INGREDIENTS")
     private Set<String> ingredients;
 
+    @ManyToMany(mappedBy = "cocktails")
+    private Set<ShoppingListEntity> shoppingLists;
 }
