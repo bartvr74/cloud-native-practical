@@ -103,7 +103,7 @@ public class ShoppingListApplicationTests {
 		Assert.assertTrue(shoppingListResource.getIngredients().size() > 0);
 	}
 
-	public List<CocktailResource> searchForCocktails(String searchString) throws Exception {
+	private List<CocktailResource> searchForCocktails(String searchString) throws Exception {
 		// search cocktails using provided search string
 		ResponseEntity<Resources<CocktailResource>> responseEntity = restTemplate.exchange(
 				String.format("/cocktails?search=%s", searchString), HttpMethod.GET, null,
