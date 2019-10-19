@@ -11,10 +11,12 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Entity
 @Table(name = "COCKTAIL")
 @Data
+@EqualsAndHashCode(exclude="shoppingLists")
 public class CocktailEntity {
 
     @Id
