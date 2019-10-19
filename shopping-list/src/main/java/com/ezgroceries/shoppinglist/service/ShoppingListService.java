@@ -102,6 +102,7 @@ public class ShoppingListService {
             List<String> ingredients = shoppingListEntity.getCocktails().stream()
                 .filter(entity -> entity != null)
                 .flatMap(entity->entity.getIngredients().stream())
+                .distinct()
                 .collect(Collectors.toList());
             return ingredients;
         }
