@@ -83,9 +83,11 @@ public class ShoppingListService {
                         }
                         cocktails.add(cocktail.get());
                         shoppingListEntity.setCocktails(cocktails);
+                        shoppingListRepository.save(shoppingListEntity);
 
                         CocktailReference addedCocktailReference = new CocktailReference();
                         addedCocktailReference.setCocktailId(cocktail.get().getId());
+                        addedCocktailReferences.add(addedCocktailReference);
                     }
                 }
             }
