@@ -29,7 +29,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @EnableAutoConfiguration
-@ActiveProfiles("hsqldb")
+@ActiveProfiles({"hsqldb", "test"})
 public class ShoppingListApplicationTests {
 
 	@Autowired

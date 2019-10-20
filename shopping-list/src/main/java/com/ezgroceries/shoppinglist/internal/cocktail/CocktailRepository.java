@@ -13,4 +13,6 @@ public interface CocktailRepository extends CrudRepository<CocktailEntity, UUID>
     @Query(value = "SELECT c FROM CocktailEntity c WHERE c.idDrink IN :ids")
     List<CocktailEntity> findByIdDrinkIn(@Param("ids") List<String> ids);
 
+    List<CocktailEntity> findByNameContainingIgnoreCase(String search);
+
 }
