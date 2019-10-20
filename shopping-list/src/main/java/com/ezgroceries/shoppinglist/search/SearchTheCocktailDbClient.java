@@ -11,7 +11,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Component
 @FeignClient(name = "cocktailDBClient", url = "https://www.thecocktaildb.com/api/json/v1/1",
-        fallback = SearchTheCocktailDbClient.CocktailDBClientFallback.class)
+        fallback = SearchTheCocktailDbClient.CocktailDBClientFallback.class,
+        qualifier = "defaultSearch")
 public interface SearchTheCocktailDbClient extends SearchCocktailDbClient {
 
     @GetMapping(value = "search.php")
