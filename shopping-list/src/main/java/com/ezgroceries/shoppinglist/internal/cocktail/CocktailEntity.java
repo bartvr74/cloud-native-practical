@@ -34,6 +34,15 @@ public class CocktailEntity {
     @Column(name = "INGREDIENTS")
     private Set<String> ingredients;
 
+    @Column(name = "THUMB")
+    private String thumb;
+
+    @Column(name = "INSTRUCTIONS")
+    private String instructions;
+
+    @Column(name = "GLASS")
+    private String glass;
+
     @ManyToMany(mappedBy = "cocktails")
     private Set<ShoppingListEntity> shoppingLists;
 }
