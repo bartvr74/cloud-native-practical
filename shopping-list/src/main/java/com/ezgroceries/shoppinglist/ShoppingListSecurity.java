@@ -28,14 +28,12 @@ public class ShoppingListSecurity extends WebSecurityConfigurerAdapter {
     }
 
     @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+    public void configureGlobal(AuthenticationManagerBuilder authnManagerBuilder) throws Exception {
         PasswordEncoder passwordEncoder = passwordEncoder();
         UserBuilder users = User.builder().passwordEncoder((password) -> passwordEncoder.encode(password));
-        auth
+        authnManagerBuilder
                 .jdbcAuthentication()
-                .dataSource(dataSource)
-                .withUser(users.username("user").password("password").roles("USER"))
-                .withUser(users.username("admin").password("password").roles("USER","ADMIN"));
+                .dataSource(dataSource);
     }
 
     @Bean
