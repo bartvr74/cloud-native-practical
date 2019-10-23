@@ -1,4 +1,4 @@
-package com.ezgroceries.shoppinglist;
+package com.ezgroceries;
 
 import com.ezgroceries.shoppinglist.dto.CocktailReferenceDto;
 import com.ezgroceries.cocktail.dto.CocktailResourceResponse;
@@ -30,7 +30,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @EnableAutoConfiguration
 @ActiveProfiles({"hsqldb", "test"})
-public class ShoppingListApplicationTests {
+public class GroceriesApplicationTests {
 
 	@Autowired
 	private TestRestTemplate restTemplate;
