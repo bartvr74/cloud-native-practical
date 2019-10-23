@@ -4,7 +4,7 @@ import java.util.UUID;
 import lombok.Data;
 
 @Data
-public class CocktailReference {
+public class CocktailReferenceDto {
 
     private UUID cocktailId;
 

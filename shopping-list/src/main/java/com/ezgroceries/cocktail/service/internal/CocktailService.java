@@ -1,12 +1,12 @@
-package com.ezgroceries.shoppinglist.service;
+package com.ezgroceries.cocktail.service.internal;
 
-import com.ezgroceries.shoppinglist.dto.CocktailResource;
-import com.ezgroceries.shoppinglist.internal.cocktail.CocktailEntity;
-import com.ezgroceries.shoppinglist.internal.cocktail.CocktailRepository;
-import com.ezgroceries.shoppinglist.search.IngredientUtils;
-import com.ezgroceries.shoppinglist.search.SearchCocktailDbClient;
-import com.ezgroceries.shoppinglist.search.SearchCocktailDbResponse;
-import com.ezgroceries.shoppinglist.search.SearchCocktailDbResponse.DrinkResource;
+import com.ezgroceries.cocktail.dto.CocktailResourceResponse;
+import com.ezgroceries.cocktail.persistence.CocktailEntity;
+import com.ezgroceries.cocktail.persistence.CocktailRepository;
+import com.ezgroceries.cocktail.service.external.IngredientUtils;
+import com.ezgroceries.cocktail.service.external.SearchCocktailDbClient;
+import com.ezgroceries.cocktail.service.external.SearchCocktailDbResponse;
+import com.ezgroceries.cocktail.service.external.SearchCocktailDbResponse.DrinkResource;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -28,7 +28,7 @@ public class CocktailService {
         this.cocktailRepository = cocktailRepository;
     }
 
-    public List<CocktailResource> searchCocktails(String search) {
+    public List<CocktailResourceResponse> searchCocktails(String search) {
         SearchCocktailDbResponse cocktailDbResponse = searchClient.searchCocktails(search);
         List<DrinkResource> drinkResources = cocktailDbResponse.getDrinks();
         if(drinkResources != null && !drinkResources.isEmpty())
@@ -37,7 +37,7 @@ public class CocktailService {
             return new ArrayList<>();
     }
 
-    public List<CocktailResource> mergeCocktails(List<DrinkResource> drinks) {
+    public List<CocktailResourceResponse> mergeCocktails(List<DrinkResource> drinks) {
         //Get all the idDrink attributes
         List<String> ids = drinks.stream().map(DrinkResource::getIdDrink).collect(Collectors.toList());
 
@@ -64,10 +64,10 @@ public class CocktailService {
         return mergeAndTransform(drinks, allEntityMap);
     }
 
-    private List<CocktailResource> mergeAndTransform(List<DrinkResource> drinks,
+    private List<CocktailResourceResponse> mergeAndTransform(List<DrinkResource> drinks,
             Map<String, CocktailEntity> allEntityMap) {
         return drinks.stream()
-                .map(drinkResource -> new CocktailResource(allEntityMap.get(drinkResource.getIdDrink()).getId(),
+                .map(drinkResource -> new CocktailResourceResponse(allEntityMap.get(drinkResource.getIdDrink()).getId(),
                         drinkResource.getStrDrink(), drinkResource.getStrGlass(), drinkResource.getStrInstructions(),
                         drinkResource.getStrDrinkThumb(), IngredientUtils.getIngredientsFrom(drinkResource)))
                 .collect(Collectors.toList());

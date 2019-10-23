@@ -4,12 +4,12 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import com.ezgroceries.shoppinglist.dto.CocktailReference;
-import com.ezgroceries.shoppinglist.dto.ShoppingListResource;
-import com.ezgroceries.shoppinglist.internal.cocktail.CocktailEntity;
-import com.ezgroceries.shoppinglist.internal.cocktail.CocktailRepository;
-import com.ezgroceries.shoppinglist.internal.shoppinglist.ShoppingListEntity;
-import com.ezgroceries.shoppinglist.internal.shoppinglist.ShoppingListRepository;
+import com.ezgroceries.shoppinglist.dto.CocktailReferenceDto;
+import com.ezgroceries.shoppinglist.dto.ShoppingListResourceResponse;
+import com.ezgroceries.cocktail.persistence.CocktailEntity;
+import com.ezgroceries.cocktail.persistence.CocktailRepository;
+import com.ezgroceries.shoppinglist.persistence.ShoppingListEntity;
+import com.ezgroceries.shoppinglist.persistence.ShoppingListRepository;
 import com.ezgroceries.shoppinglist.service.ShoppingListService;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -77,7 +77,7 @@ public class ShoppingListServiceTest {
         ShoppingListService shoppingListService = new ShoppingListService(shoppingListRepository, cocktailRepository);
 
         // WHEN
-        ShoppingListResource shoppingListResource = shoppingListService.create(FIXED_SHOPPING_LIST_NAME);
+        ShoppingListResourceResponse shoppingListResource = shoppingListService.create(FIXED_SHOPPING_LIST_NAME);
 
         // THEN
         Assert.assertEquals(FIXED_SHOPPING_LIST_NAME, shoppingListResource.getName());
@@ -91,7 +91,7 @@ public class ShoppingListServiceTest {
         ShoppingListService shoppingListService = new ShoppingListService(shoppingListRepository, cocktailRepository);
 
         // WHEN
-        ShoppingListResource shoppingListResource = shoppingListService.get(FIXED_SHOPPING_LIST_ID);
+        ShoppingListResourceResponse shoppingListResource = shoppingListService.get(FIXED_SHOPPING_LIST_ID);
 
         // THEN
         Assert.assertNotNull(shoppingListResource);
@@ -106,7 +106,7 @@ public class ShoppingListServiceTest {
         ShoppingListService shoppingListService = new ShoppingListService(shoppingListRepository, cocktailRepository);
 
         // WHEN
-        ShoppingListResource shoppingListResource = shoppingListService.get(FIXED_UNKNOWN_SHOPPING_LIST_ID);
+        ShoppingListResourceResponse shoppingListResource = shoppingListService.get(FIXED_UNKNOWN_SHOPPING_LIST_ID);
 
         // THEN
         Assert.assertNull(shoppingListResource);
@@ -118,7 +118,7 @@ public class ShoppingListServiceTest {
         ShoppingListService shoppingListService = new ShoppingListService(shoppingListRepository, cocktailRepository);
 
         // WHEN
-        List<ShoppingListResource> shoppingListResources = shoppingListService.getAll();
+        List<ShoppingListResourceResponse> shoppingListResources = shoppingListService.getAll();
 
         // THEN
         Assert.assertNotNull(shoppingListResources);
@@ -130,13 +130,13 @@ public class ShoppingListServiceTest {
     public void testAddCocktail() {
         // GIVEN
         ShoppingListService shoppingListService = new ShoppingListService(shoppingListRepository, cocktailRepository);
-        CocktailReference cocktailReference = new CocktailReference();
+        CocktailReferenceDto cocktailReference = new CocktailReferenceDto();
         cocktailReference.setCocktailId(FIXED_COCKTAIL_ID);
-        List<CocktailReference> cocktailReferences = Arrays.asList(cocktailReference);
+        List<CocktailReferenceDto> cocktailReferences = Arrays.asList(cocktailReference);
 
 
         // WHEN
-        List<CocktailReference> addedCocktailReferences = shoppingListService
+        List<CocktailReferenceDto> addedCocktailReferences = shoppingListService
                 .addCocktails(FIXED_SHOPPING_LIST_ID, cocktailReferences);
 
         // THEN
@@ -148,12 +148,12 @@ public class ShoppingListServiceTest {
     public void testAddMissingCocktail() {
         // GIVEN
         ShoppingListService shoppingListService = new ShoppingListService(shoppingListRepository, cocktailRepository);
-        CocktailReference cocktailReference = new CocktailReference();
+        CocktailReferenceDto cocktailReference = new CocktailReferenceDto();
         cocktailReference.setCocktailId(FIXED_UNKNOWN_COCKTAIL_ID);
-        List<CocktailReference> cocktailReferences = Arrays.asList(cocktailReference);
+        List<CocktailReferenceDto> cocktailReferences = Arrays.asList(cocktailReference);
 
         // WHEN
-        List<CocktailReference> addedCocktailReferences = shoppingListService
+        List<CocktailReferenceDto> addedCocktailReferences = shoppingListService
                 .addCocktails(FIXED_SHOPPING_LIST_ID, cocktailReferences);
 
         // THEN

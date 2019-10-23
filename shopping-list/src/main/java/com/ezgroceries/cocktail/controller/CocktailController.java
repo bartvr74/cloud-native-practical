@@ -1,8 +1,8 @@
-package com.ezgroceries.shoppinglist.controller;
+package com.ezgroceries.cocktail.controller;
 
-import com.ezgroceries.shoppinglist.dto.CocktailResource;
-import com.ezgroceries.shoppinglist.dto.Resources;
-import com.ezgroceries.shoppinglist.service.CocktailService;
+import com.ezgroceries.cocktail.dto.CocktailResourceResponse;
+import com.ezgroceries.cocktail.dto.ResourcesResponse;
+import com.ezgroceries.cocktail.service.internal.CocktailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,8 +21,8 @@ public class CocktailController {
     }
 
     @GetMapping
-    public Resources<CocktailResource> get(@RequestParam String search) {
-        return new Resources<>(cocktailService.searchCocktails(search));
+    public ResourcesResponse<CocktailResourceResponse> get(@RequestParam String search) {
+        return new ResourcesResponse<>(cocktailService.searchCocktails(search));
     }
 
 }

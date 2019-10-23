@@ -1,4 +1,4 @@
-package com.ezgroceries.shoppinglist;
+package com.ezgroceries;
 
 import org.apache.catalina.connector.Connector;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,10 +21,10 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 @EnableFeignClients
 @EnableJpaRepositories
-public class ShoppingListApplication {
+public class GroceriesApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ShoppingListApplication.class, args);
+		SpringApplication.run(GroceriesApplication.class, args);
 	}
 
 	@Bean

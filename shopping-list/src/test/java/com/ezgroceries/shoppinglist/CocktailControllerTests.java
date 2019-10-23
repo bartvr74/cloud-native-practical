@@ -3,12 +3,12 @@ package com.ezgroceries.shoppinglist;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.ezgroceries.shoppinglist.controller.CocktailController;
-import com.ezgroceries.shoppinglist.dto.CocktailResource;
-import com.ezgroceries.shoppinglist.dto.Resources;
-import com.ezgroceries.shoppinglist.search.SearchCocktailDbClient;
-import com.ezgroceries.shoppinglist.search.SearchCocktailDbResponse;
-import com.ezgroceries.shoppinglist.search.SearchCocktailDbResponse.DrinkResource;
+import com.ezgroceries.cocktail.controller.CocktailController;
+import com.ezgroceries.cocktail.dto.CocktailResourceResponse;
+import com.ezgroceries.cocktail.dto.ResourcesResponse;
+import com.ezgroceries.cocktail.service.external.SearchCocktailDbClient;
+import com.ezgroceries.cocktail.service.external.SearchCocktailDbResponse;
+import com.ezgroceries.cocktail.service.external.SearchCocktailDbResponse.DrinkResource;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Arrays;
@@ -23,6 +23,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -33,6 +34,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 @WebMvcTest(CocktailController.class)
 @ComponentScan("com.ezgroceries")
 @AutoConfigureDataJpa
+@ActiveProfiles({"hsqldb", "test"})
 public class CocktailControllerTests {
 
     @Autowired
@@ -64,15 +66,15 @@ public class CocktailControllerTests {
 
         MvcResult mvcResult = resultActions.andReturn();
         String jsonContent = mvcResult.getResponse().getContentAsString();
-        Resources<CocktailResource> cocktailResources =
-                objectMapper.readValue(jsonContent, new TypeReference<Resources<CocktailResource>>() {});
+        ResourcesResponse<CocktailResourceResponse> cocktailResources =
+                objectMapper.readValue(jsonContent, new TypeReference<ResourcesResponse<CocktailResourceResponse>>() {});
 
         // THEN
         Assert.assertNotNull(cocktailResources);
         Assert.assertNotNull(cocktailResources.getResources());
         Assert.assertEquals(1, cocktailResources.getResources().size());
 
-        CocktailResource cocktailResource = cocktailResources.getResources().get(0);
+        CocktailResourceResponse cocktailResource = cocktailResources.getResources().get(0);
         Assert.assertEquals("Margarita", cocktailResource.getDescription());
         Assert.assertEquals("Cocktail glass", cocktailResource.getTypeOfGlass());
         Assert.assertNotNull(cocktailResource.getIngredients());

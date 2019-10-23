@@ -1,11 +1,11 @@
 package com.ezgroceries.shoppinglist.service;
 
-import com.ezgroceries.shoppinglist.dto.CocktailReference;
-import com.ezgroceries.shoppinglist.dto.ShoppingListResource;
-import com.ezgroceries.shoppinglist.internal.cocktail.CocktailEntity;
-import com.ezgroceries.shoppinglist.internal.cocktail.CocktailRepository;
-import com.ezgroceries.shoppinglist.internal.shoppinglist.ShoppingListEntity;
-import com.ezgroceries.shoppinglist.internal.shoppinglist.ShoppingListRepository;
+import com.ezgroceries.shoppinglist.dto.CocktailReferenceDto;
+import com.ezgroceries.shoppinglist.dto.ShoppingListResourceResponse;
+import com.ezgroceries.cocktail.persistence.CocktailEntity;
+import com.ezgroceries.cocktail.persistence.CocktailRepository;
+import com.ezgroceries.shoppinglist.persistence.ShoppingListEntity;
+import com.ezgroceries.shoppinglist.persistence.ShoppingListRepository;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -29,22 +29,22 @@ public class ShoppingListService {
         this.cocktailRepository = cocktailRepository;
     }
 
-    public ShoppingListResource create(String listName) {
+    public ShoppingListResourceResponse create(String listName) {
         ShoppingListEntity shoppingListEntity = new ShoppingListEntity();
         shoppingListEntity.setName(listName);
         ShoppingListEntity newShoppingListEntity = shoppingListRepository.save(shoppingListEntity);
 
-        return new ShoppingListResource(
+        return new ShoppingListResourceResponse(
                 newShoppingListEntity.getId(),
                 newShoppingListEntity.getName()
         );
     }
 
-    public ShoppingListResource get(UUID id) {
+    public ShoppingListResourceResponse get(UUID id) {
         Optional<ShoppingListEntity> shoppingListEntity = shoppingListRepository.findById(id);
         if(shoppingListEntity.isPresent()) {
             List<String> ingredients = getIngredients(shoppingListEntity.get());
-            return new ShoppingListResource(
+            return new ShoppingListResourceResponse(
                     shoppingListEntity.get().getId(),
                     shoppingListEntity.get().getName(),
                     ingredients);
@@ -52,13 +52,13 @@ public class ShoppingListService {
         return null;
     }
 
-    public List<ShoppingListResource> getAll() {
+    public List<ShoppingListResourceResponse> getAll() {
         Iterable<ShoppingListEntity> shoppingLists = shoppingListRepository.findAll();
-        List<ShoppingListResource> lists = new ArrayList<>();
+        List<ShoppingListResourceResponse> lists = new ArrayList<>();
         for(ShoppingListEntity shoppingList : shoppingLists) {
             List<String> ingredients = getIngredients(shoppingList);
-            ShoppingListResource shoppingListResource =
-                new ShoppingListResource(
+            ShoppingListResourceResponse shoppingListResource =
+                new ShoppingListResourceResponse(
                             shoppingList.getId(),
                             shoppingList.getName(),
                             ingredients);
@@ -68,12 +68,12 @@ public class ShoppingListService {
         return lists;
     }
 
-    public List<CocktailReference> addCocktails(UUID listId, List<CocktailReference> cocktailRefs) {
-        List<CocktailReference> addedCocktailReferences = new ArrayList<>();
+    public List<CocktailReferenceDto> addCocktails(UUID listId, List<CocktailReferenceDto> cocktailRefs) {
+        List<CocktailReferenceDto> addedCocktailReferences = new ArrayList<>();
         Optional<ShoppingListEntity> shoppingList = shoppingListRepository.findById(listId);
         if(shoppingList.isPresent()) {
             if(cocktailRefs != null) {
-                for(CocktailReference cocktailRef : cocktailRefs) {
+                for(CocktailReferenceDto cocktailRef : cocktailRefs) {
                     Optional<CocktailEntity> cocktail = cocktailRepository.findById(cocktailRef.getCocktailId());
                     if(cocktail.isPresent()) {
                         ShoppingListEntity shoppingListEntity = shoppingList.get();
@@ -85,7 +85,7 @@ public class ShoppingListService {
                         shoppingListEntity.setCocktails(cocktails);
                         shoppingListRepository.save(shoppingListEntity);
 
-                        CocktailReference addedCocktailReference = new CocktailReference();
+                        CocktailReferenceDto addedCocktailReference = new CocktailReferenceDto();
                         addedCocktailReference.setCocktailId(cocktail.get().getId());
                         addedCocktailReferences.add(addedCocktailReference);
                     }

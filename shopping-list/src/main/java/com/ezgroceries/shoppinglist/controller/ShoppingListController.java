@@ -1,8 +1,8 @@
 package com.ezgroceries.shoppinglist.controller;
 
-import com.ezgroceries.shoppinglist.dto.CocktailReference;
-import com.ezgroceries.shoppinglist.dto.CreateShoppingList;
-import com.ezgroceries.shoppinglist.dto.ShoppingListResource;
+import com.ezgroceries.shoppinglist.dto.CocktailReferenceDto;
+import com.ezgroceries.shoppinglist.dto.CreateShoppingListRequest;
+import com.ezgroceries.shoppinglist.dto.ShoppingListResourceResponse;
 import com.ezgroceries.shoppinglist.service.ShoppingListService;
 import java.util.List;
 import java.util.UUID;
@@ -28,26 +28,26 @@ public class ShoppingListController {
     }
 
     @PostMapping("/shopping-lists")
-    public ResponseEntity<ShoppingListResource> createShoppingList(@RequestBody CreateShoppingList createShoppingList) {
-        ShoppingListResource newShoppingList = shoppingListService.create(createShoppingList.getName());
+    public ResponseEntity<ShoppingListResourceResponse> createShoppingList(@RequestBody CreateShoppingListRequest createShoppingList) {
+        ShoppingListResourceResponse newShoppingList = shoppingListService.create(createShoppingList.getName());
         return new ResponseEntity<>(newShoppingList, HttpStatus.CREATED);
     }
 
     @PostMapping("/shopping-lists/{shoppingListId}/cocktails")
-    public ResponseEntity<List<CocktailReference>> addCocktailReferences(@PathVariable(name = "shoppingListId")
-            UUID shoppingListId, @RequestBody List<CocktailReference> cocktailReferences) {
-        List<CocktailReference> addedCocktailReferences =
+    public ResponseEntity<List<CocktailReferenceDto>> addCocktailReferences(@PathVariable(name = "shoppingListId")
+            UUID shoppingListId, @RequestBody List<CocktailReferenceDto> cocktailReferences) {
+        List<CocktailReferenceDto> addedCocktailReferences =
                 shoppingListService.addCocktails(shoppingListId, cocktailReferences);
         return new ResponseEntity<>(addedCocktailReferences, HttpStatus.OK);
     }
 
     @GetMapping("/shopping-lists/{shoppingListId}")
-    public ShoppingListResource findShoppingList(@PathVariable(name = "shoppingListId") UUID shoppingListId) {
+    public ShoppingListResourceResponse findShoppingList(@PathVariable(name = "shoppingListId") UUID shoppingListId) {
         return shoppingListService.get(shoppingListId);
     }
 
     @GetMapping("/shopping-lists")
-    public List<ShoppingListResource> getShoppingLists() {
+    public List<ShoppingListResourceResponse> getShoppingLists() {
         return shoppingListService.getAll();
     }
 

@@ -1,10 +1,10 @@
 package com.ezgroceries.shoppinglist;
 
-import com.ezgroceries.shoppinglist.dto.CocktailReference;
-import com.ezgroceries.shoppinglist.dto.CocktailResource;
-import com.ezgroceries.shoppinglist.dto.CreateShoppingList;
-import com.ezgroceries.shoppinglist.dto.Resources;
-import com.ezgroceries.shoppinglist.dto.ShoppingListResource;
+import com.ezgroceries.shoppinglist.dto.CocktailReferenceDto;
+import com.ezgroceries.cocktail.dto.CocktailResourceResponse;
+import com.ezgroceries.shoppinglist.dto.CreateShoppingListRequest;
+import com.ezgroceries.cocktail.dto.ResourcesResponse;
+import com.ezgroceries.shoppinglist.dto.ShoppingListResourceResponse;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -46,7 +46,7 @@ public class ShoppingListApplicationTests {
 		String search = "Russian";
 
 		// WHEN
-		List<CocktailResource> cocktailResources = searchForCocktails(search);
+		List<CocktailResourceResponse> cocktailResources = searchForCocktails(search);
 
 		// THEN
 		Assert.assertNotNull(cocktailResources);
@@ -60,8 +60,8 @@ public class ShoppingListApplicationTests {
 		UUID listId = createShoppingList("SpringBootLaunchParty");
 
 		// WHEN
-		ShoppingListResource shoppingListResource =
-				restTemplate.getForObject("/shopping-lists/{listId}", ShoppingListResource.class, listId);
+		ShoppingListResourceResponse shoppingListResource =
+				restTemplate.getForObject("/shopping-lists/{listId}", ShoppingListResourceResponse.class, listId);
 
 		// THEN
 		Assert.assertNotNull(shoppingListResource);
@@ -72,30 +72,30 @@ public class ShoppingListApplicationTests {
 	public void searchCocktailsAndLinkToNewList() throws Exception {
 		// GIVEN
 		UUID listId = createShoppingList("LinkingParty");
-		List<CocktailResource> foundCocktails = searchForCocktails("Russian");
+		List<CocktailResourceResponse> foundCocktails = searchForCocktails("Russian");
 
 		// WHEN
-		List<CocktailReference> cocktailReferences = new ArrayList<>();
-		for(CocktailResource foundCocktail : foundCocktails) {
-			CocktailReference cocktailReference = new CocktailReference();
+		List<CocktailReferenceDto> cocktailReferences = new ArrayList<>();
+		for(CocktailResourceResponse foundCocktail : foundCocktails) {
+			CocktailReferenceDto cocktailReference = new CocktailReferenceDto();
 			cocktailReference.setCocktailId(foundCocktail.getId());
 			cocktailReferences.add(cocktailReference);
 		}
 
-		RequestEntity<List<CocktailReference>> requestEntity =
+		RequestEntity<List<CocktailReferenceDto>> requestEntity =
 				new RequestEntity<>(cocktailReferences, HttpMethod.POST,
 						new URI(String.format("/shopping-lists/%s/cocktails",listId.toString())));
 
-		ResponseEntity<List<CocktailReference>> responseEntity =
-				restTemplate.exchange(requestEntity, new ParameterizedTypeReference<List<CocktailReference>>() {});
+		ResponseEntity<List<CocktailReferenceDto>> responseEntity =
+				restTemplate.exchange(requestEntity, new ParameterizedTypeReference<List<CocktailReferenceDto>>() {});
 
 		// THEN
 		Assert.assertNotNull(responseEntity);
 		Assert.assertNotNull(responseEntity.getBody());
 		Assert.assertTrue(responseEntity.getBody().size() == foundCocktails.size());
 
-		ShoppingListResource shoppingListResource = restTemplate.getForObject("/shopping-lists/{listId}",
-				ShoppingListResource.class, listId);
+		ShoppingListResourceResponse shoppingListResource = restTemplate.getForObject("/shopping-lists/{listId}",
+				ShoppingListResourceResponse.class, listId);
 		Assert.assertNotNull(shoppingListResource);
 		Assert.assertEquals(shoppingListResource.getId(), listId);
 		Assert.assertEquals(shoppingListResource.getName(), "LinkingParty");
@@ -103,19 +103,19 @@ public class ShoppingListApplicationTests {
 		Assert.assertTrue(shoppingListResource.getIngredients().size() > 0);
 	}
 
-	private List<CocktailResource> searchForCocktails(String searchString) throws Exception {
+	private List<CocktailResourceResponse> searchForCocktails(String searchString) throws Exception {
 		// search cocktails using provided search string
-		ResponseEntity<Resources<CocktailResource>> responseEntity = restTemplate.exchange(
+		ResponseEntity<ResourcesResponse<CocktailResourceResponse>> responseEntity = restTemplate.exchange(
 				String.format("/cocktails?search=%s", searchString), HttpMethod.GET, null,
-				new ParameterizedTypeReference<Resources<CocktailResource>>() {});
+				new ParameterizedTypeReference<ResourcesResponse<CocktailResourceResponse>>() {});
 
 		// basic check search output
 		Assert.assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-		Resources<CocktailResource> cocktailResources = responseEntity.getBody();
+		ResourcesResponse<CocktailResourceResponse> cocktailResources = responseEntity.getBody();
 		Assert.assertNotNull(cocktailResources);
 		Assert.assertNotNull(cocktailResources.getResources());
 		Assert.assertTrue(cocktailResources.getResources().size() > 0);
-		for(CocktailResource cocktailResource : cocktailResources.getResources()) {
+		for(CocktailResourceResponse cocktailResource : cocktailResources.getResources()) {
 			Assert.assertNotNull(cocktailResource.getDescription());
 			Assert.assertTrue(cocktailResource.getDescription().contains(searchString));
 		}
@@ -124,16 +124,16 @@ public class ShoppingListApplicationTests {
 
 	private UUID createShoppingList(String shoppingListName) throws URISyntaxException  {
 		// input shopping list creation
-		CreateShoppingList createShoppingList = new CreateShoppingList();
+		CreateShoppingListRequest createShoppingList = new CreateShoppingListRequest();
 		createShoppingList.setName(shoppingListName);
 
 		// fire request
-		RequestEntity<CreateShoppingList> requestEntity = new RequestEntity<>(
+		RequestEntity<CreateShoppingListRequest> requestEntity = new RequestEntity<>(
 				createShoppingList, HttpMethod.POST, new URI("/shopping-lists")
 		);
 
-		ResponseEntity<ShoppingListResource> responseEntity =
-				restTemplate.exchange(requestEntity, new ParameterizedTypeReference<ShoppingListResource>() {});
+		ResponseEntity<ShoppingListResourceResponse> responseEntity =
+				restTemplate.exchange(requestEntity, new ParameterizedTypeReference<ShoppingListResourceResponse>() {});
 
 		// basic check output
 		Assert.assertNotNull(responseEntity.getBody());

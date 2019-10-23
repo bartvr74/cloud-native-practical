@@ -1,7 +1,7 @@
-package com.ezgroceries.shoppinglist.search;
+package com.ezgroceries.cocktail.service.external;
 
-import com.ezgroceries.shoppinglist.internal.cocktail.CocktailEntity;
-import com.ezgroceries.shoppinglist.internal.cocktail.CocktailRepository;
+import com.ezgroceries.cocktail.persistence.CocktailEntity;
+import com.ezgroceries.cocktail.persistence.CocktailRepository;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.cloud.openfeign.FeignClient;
