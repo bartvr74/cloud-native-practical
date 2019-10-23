@@ -2,7 +2,7 @@ package com.ezgroceries.password;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-public class PasswordUtil {
+public class PasswordTestingUtil {
 
     public static void main(String[] args) {
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
