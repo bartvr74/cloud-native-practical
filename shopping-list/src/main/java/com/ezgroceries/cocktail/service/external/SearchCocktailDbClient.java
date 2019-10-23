@@ -1,4 +1,4 @@
-package com.ezgroceries.shoppinglist.search;
+package com.ezgroceries.cocktail.service.external;
 
 public interface SearchCocktailDbClient {
 

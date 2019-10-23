@@ -1,4 +1,4 @@
-package com.ezgroceries.shoppinglist.search;
+package com.ezgroceries.cocktail.service.external;
 
 import java.util.List;
 import lombok.Data;

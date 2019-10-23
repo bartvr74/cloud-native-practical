@@ -1,4 +1,4 @@
-package com.ezgroceries.shoppinglist;
+package com.ezgroceries;
 
 import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,12 +18,12 @@ import org.springframework.security.web.firewall.StrictHttpFirewall;
 
 @Configuration
 @EnableWebSecurity
-public class ShoppingListSecurity extends WebSecurityConfigurerAdapter {
+public class GroceriesSecurity extends WebSecurityConfigurerAdapter {
 
     private DataSource dataSource;
 
     @Autowired
-    public ShoppingListSecurity(DataSource dataSource) {
+    public GroceriesSecurity(DataSource dataSource) {
         this.dataSource = dataSource;
     }
 

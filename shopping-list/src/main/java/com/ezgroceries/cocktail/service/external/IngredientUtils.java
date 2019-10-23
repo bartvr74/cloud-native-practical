@@ -1,6 +1,6 @@
-package com.ezgroceries.shoppinglist.search;
+package com.ezgroceries.cocktail.service.external;
 
-import com.ezgroceries.shoppinglist.search.SearchCocktailDbResponse.DrinkResource;
+import com.ezgroceries.cocktail.service.external.SearchCocktailDbResponse.DrinkResource;
 import io.micrometer.core.instrument.util.StringUtils;
 import java.lang.reflect.Method;
 import java.util.ArrayList;

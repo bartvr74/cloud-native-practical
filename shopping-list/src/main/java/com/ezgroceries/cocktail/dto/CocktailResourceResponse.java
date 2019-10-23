@@ -1,4 +1,4 @@
-package com.ezgroceries.shoppinglist.dto;
+package com.ezgroceries.cocktail.dto;
 
 import java.util.List;
 import java.util.UUID;
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CocktailResource {
+public class CocktailResourceResponse {
 
     private UUID id;
     private String description;

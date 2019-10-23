@@ -4,9 +4,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.ezgroceries.shoppinglist.controller.ShoppingListController;
-import com.ezgroceries.shoppinglist.dto.CreateShoppingList;
-import com.ezgroceries.shoppinglist.dto.ShoppingListResource;
-import com.ezgroceries.shoppinglist.search.SearchCocktailDbClient;
+import com.ezgroceries.shoppinglist.dto.CreateShoppingListRequest;
+import com.ezgroceries.shoppinglist.dto.ShoppingListResourceResponse;
+import com.ezgroceries.cocktail.service.external.SearchCocktailDbClient;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.UUID;
@@ -19,6 +19,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -29,6 +30,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 @WebMvcTest(ShoppingListController.class)
 @ComponentScan("com.ezgroceries")
 @AutoConfigureDataJpa
+@ActiveProfiles({"hsqldb", "test"})
 public class ShoppingListControllerTests {
 
     @Autowired
@@ -62,8 +64,8 @@ public class ShoppingListControllerTests {
 
         MvcResult mvcResult = resultActions.andReturn();
         String jsonContent = mvcResult.getResponse().getContentAsString();
-        ShoppingListResource shoppingListResource = objectMapper.
-                readValue(jsonContent, new TypeReference<ShoppingListResource>() {});
+        ShoppingListResourceResponse shoppingListResource = objectMapper.
+                readValue(jsonContent, new TypeReference<ShoppingListResourceResponse>() {});
 
         // THEN
         Assert.assertNotNull(shoppingListResource);
@@ -75,7 +77,7 @@ public class ShoppingListControllerTests {
     private UUID createShoppingList(String shoppingListName) throws Exception
     {
         // GIVEN
-        CreateShoppingList createShoppingList = new CreateShoppingList();
+        CreateShoppingListRequest createShoppingList = new CreateShoppingListRequest();
         createShoppingList.setName(shoppingListName);
         String jsonCreateList = objectMapper.writeValueAsString(createShoppingList);
 
@@ -90,8 +92,8 @@ public class ShoppingListControllerTests {
 
         MvcResult mvcResult = resultActions.andReturn();
         String jsonContent = mvcResult.getResponse().getContentAsString();
-        ShoppingListResource shoppingListResource = objectMapper.
-                readValue(jsonContent, new TypeReference<ShoppingListResource>() {});
+        ShoppingListResourceResponse shoppingListResource = objectMapper.
+                readValue(jsonContent, new TypeReference<ShoppingListResourceResponse>() {});
 
         // THEN
         Assert.assertNotNull(shoppingListResource);

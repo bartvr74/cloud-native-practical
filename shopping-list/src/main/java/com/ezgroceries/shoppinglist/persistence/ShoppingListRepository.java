@@ -1,4 +1,4 @@
-package com.ezgroceries.shoppinglist.internal.shoppinglist;
+package com.ezgroceries.shoppinglist.persistence;
 
 import java.util.UUID;
 import org.springframework.data.repository.CrudRepository;

@@ -1,6 +1,5 @@
 package com.ezgroceries.shoppinglist.dto;
 
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,8 +7,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Resources<T> {
+public class CreateShoppingListRequest {
 
-    private List<T> resources;
+    private String name;
 
 }
