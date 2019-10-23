@@ -2,10 +2,10 @@ package com.ezgroceries.shoppinglist.service;
 
 import com.ezgroceries.shoppinglist.dto.CocktailReferenceDto;
 import com.ezgroceries.shoppinglist.dto.ShoppingListResourceResponse;
-import com.ezgroceries.cocktail.persistence.CocktailEntity;
-import com.ezgroceries.cocktail.persistence.CocktailRepository;
-import com.ezgroceries.shoppinglist.persistence.ShoppingListEntity;
-import com.ezgroceries.shoppinglist.persistence.ShoppingListRepository;
+import com.ezgroceries.cocktail.persistence.entity.CocktailEntity;
+import com.ezgroceries.cocktail.persistence.repository.CocktailRepository;
+import com.ezgroceries.shoppinglist.persistence.entity.ShoppingListEntity;
+import com.ezgroceries.shoppinglist.persistence.repository.ShoppingListRepository;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;

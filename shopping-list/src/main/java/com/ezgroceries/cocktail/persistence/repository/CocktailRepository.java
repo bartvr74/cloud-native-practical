@@ -1,5 +1,6 @@
-package com.ezgroceries.cocktail.persistence;
+package com.ezgroceries.cocktail.persistence.repository;
 
+import com.ezgroceries.cocktail.persistence.entity.CocktailEntity;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.data.jpa.repository.Query;

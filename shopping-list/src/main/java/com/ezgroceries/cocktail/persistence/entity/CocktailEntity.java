@@ -1,6 +1,6 @@
-package com.ezgroceries.cocktail.persistence;
+package com.ezgroceries.cocktail.persistence.entity;
 
-import com.ezgroceries.shoppinglist.persistence.ShoppingListEntity;
+import com.ezgroceries.shoppinglist.persistence.entity.ShoppingListEntity;
 import java.util.Set;
 import java.util.UUID;
 import javax.persistence.Column;
