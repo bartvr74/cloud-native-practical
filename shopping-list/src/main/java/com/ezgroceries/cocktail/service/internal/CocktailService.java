@@ -1,8 +1,8 @@
 package com.ezgroceries.cocktail.service.internal;
 
 import com.ezgroceries.cocktail.dto.CocktailResourceResponse;
-import com.ezgroceries.cocktail.persistence.CocktailEntity;
-import com.ezgroceries.cocktail.persistence.CocktailRepository;
+import com.ezgroceries.cocktail.persistence.entity.CocktailEntity;
+import com.ezgroceries.cocktail.persistence.repository.CocktailRepository;
 import com.ezgroceries.cocktail.service.external.IngredientUtils;
 import com.ezgroceries.cocktail.service.external.SearchCocktailDbClient;
 import com.ezgroceries.cocktail.service.external.SearchCocktailDbResponse;

@@ -1,7 +1,7 @@
 package com.ezgroceries.cocktail.service.external;
 
-import com.ezgroceries.cocktail.persistence.CocktailEntity;
-import com.ezgroceries.cocktail.persistence.CocktailRepository;
+import com.ezgroceries.cocktail.persistence.entity.CocktailEntity;
+import com.ezgroceries.cocktail.persistence.repository.CocktailRepository;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.cloud.openfeign.FeignClient;
