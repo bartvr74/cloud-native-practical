@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: shopping-list-deployment
   annotations:
-    version: 0.0.1-SNAPSHOT
+    version: 0.0.2-SNAPSHOT
   labels:
     app: shopping-list
 spec:
@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
       - name: shopping-list
-        image: shopping-list:0.0.1-SNAPSHOT
+        image: shopping-list:0.0.2-SNAPSHOT
         ports:
         - containerPort: 8080
         - containerPort: 8443
