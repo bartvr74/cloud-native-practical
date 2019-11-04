@@ -44,6 +44,7 @@ public class GroceriesSecurity extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) {
         web.httpFirewall(new StrictHttpFirewall());
+        web.ignoring().mvcMatchers("/actuator/**");
     }
 
     @Override
