@@ -84,3 +84,18 @@ spec:
     name: shopping-list
   tls:
     termination: passthrough
+
+---
+
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: shopping-list-route-insecure
+spec:
+  port:
+    targetPort: http
+  to:
+    kind: Service
+    name: shopping-list
+  wildcardPolicy: None
+
