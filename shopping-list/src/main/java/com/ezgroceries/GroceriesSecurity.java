@@ -44,6 +44,7 @@ public class GroceriesSecurity extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) {
         web.httpFirewall(new StrictHttpFirewall());
+        web.ignoring().mvcMatchers("/actuator/**");
     }
 
     @Override
@@ -53,7 +54,9 @@ public class GroceriesSecurity extends WebSecurityConfigurerAdapter {
         httpSecurity.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         httpSecurity.servletApi();
         httpSecurity.cors().disable();
-        httpSecurity.authorizeRequests().mvcMatchers("/**").permitAll(); // todo
+        httpSecurity.authorizeRequests().mvcMatchers("/cocktails/**").permitAll();
+        httpSecurity.authorizeRequests().mvcMatchers("//shopping-lists/**").permitAll(); // todo change authn
+        httpSecurity.authorizeRequests().anyRequest().denyAll();
     }
 
 }

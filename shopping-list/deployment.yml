@@ -1,0 +1,101 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: shopping-list-deployment
+  annotations:
+    version: 0.0.2-SNAPSHOT
+  labels:
+    app: shopping-list
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: shopping-list
+  template:
+    metadata:
+      labels:
+        app: shopping-list
+    spec:
+      containers:
+      - name: shopping-list
+        image: shopping-list:0.0.2-SNAPSHOT
+        ports:
+        - containerPort: 8080
+        - containerPort: 8443
+        lifecycle:
+          preStop:
+            exec:
+              # SIGTERM triggers a quick exit; gracefully terminate instead
+              command: ["kill", "-SIGINT", "`pidof java`"]
+        livenessProbe:
+          httpGet:
+            path: /actuator/info
+            port: 8080
+          initialDelaySeconds: 65
+          timeoutSeconds: 5
+        readinessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 8080
+          initialDelaySeconds: 60
+          timeoutSeconds: 5
+        resources:
+          requests:
+            cpu: 500m
+            memory: 1Gi
+          limits:
+            cpu: 1000m
+            memory: 2Gi
+        env:
+        - name: SPRING_PROFILES_ACTIVE
+          value: hsqldb
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: shopping-list
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 80
+      name: http
+      protocol: TCP
+      targetPort: 8080
+    - port: 443
+      name: https
+      protocol: TCP
+      targetPort: 8443
+  selector:
+    app: shopping-list
+
+---
+
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: shopping-list-route
+spec:
+  port:
+    targetPort: https
+  to:
+    kind: Service
+    name: shopping-list
+  tls:
+    termination: passthrough
+
+---
+
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: shopping-list-route-insecure
+spec:
+  port:
+    targetPort: http
+  to:
+    kind: Service
+    name: shopping-list
+  wildcardPolicy: None
+

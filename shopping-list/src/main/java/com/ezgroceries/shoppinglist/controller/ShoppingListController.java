@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(produces = "application/json")
+@RequestMapping(value="/shopping-lists", produces = "application/json")
 public class ShoppingListController {
 
     private ShoppingListService shoppingListService;
@@ -27,13 +27,13 @@ public class ShoppingListController {
         this.shoppingListService = shoppingListService;
     }
 
-    @PostMapping("/shopping-lists")
+    @PostMapping
     public ResponseEntity<ShoppingListResourceResponse> createShoppingList(@RequestBody CreateShoppingListRequest createShoppingList) {
         ShoppingListResourceResponse newShoppingList = shoppingListService.create(createShoppingList.getName());
         return new ResponseEntity<>(newShoppingList, HttpStatus.CREATED);
     }
 
-    @PostMapping("/shopping-lists/{shoppingListId}/cocktails")
+    @PostMapping("/{shoppingListId}/cocktails")
     public ResponseEntity<List<CocktailReferenceDto>> addCocktailReferences(@PathVariable(name = "shoppingListId")
             UUID shoppingListId, @RequestBody List<CocktailReferenceDto> cocktailReferences) {
         List<CocktailReferenceDto> addedCocktailReferences =
@@ -41,12 +41,12 @@ public class ShoppingListController {
         return new ResponseEntity<>(addedCocktailReferences, HttpStatus.OK);
     }
 
-    @GetMapping("/shopping-lists/{shoppingListId}")
+    @GetMapping("/{shoppingListId}")
     public ShoppingListResourceResponse findShoppingList(@PathVariable(name = "shoppingListId") UUID shoppingListId) {
         return shoppingListService.get(shoppingListId);
     }
 
-    @GetMapping("/shopping-lists")
+    @GetMapping
     public List<ShoppingListResourceResponse> getShoppingLists() {
         return shoppingListService.getAll();
     }
