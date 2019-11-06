@@ -69,31 +69,19 @@ public class ShoppingListService {
     }
 
     public List<CocktailReferenceDto> addCocktails(UUID listId, List<CocktailReferenceDto> cocktailRefs) {
-        List<CocktailReferenceDto> addedCocktailReferences = new ArrayList<>();
+        List<CocktailReferenceDto> addedCocktailRefs = new ArrayList<>();
+        if(cocktailRefs == null || cocktailRefs.isEmpty())
+            return addedCocktailRefs;
+
         Optional<ShoppingListEntity> shoppingList = shoppingListRepository.findById(listId);
         if(shoppingList.isPresent()) {
-            if(cocktailRefs != null) {
-                for(CocktailReferenceDto cocktailRef : cocktailRefs) {
-                    Optional<CocktailEntity> cocktail = cocktailRepository.findById(cocktailRef.getCocktailId());
-                    if(cocktail.isPresent()) {
-                        ShoppingListEntity shoppingListEntity = shoppingList.get();
-                        Set<CocktailEntity> cocktails = shoppingListEntity.getCocktails();
-                        if(cocktails == null) {
-                            cocktails = new HashSet<>();
-                        }
-                        cocktails.add(cocktail.get());
-                        shoppingListEntity.setCocktails(cocktails);
-                        shoppingListRepository.save(shoppingListEntity);
-
-                        CocktailReferenceDto addedCocktailReference = new CocktailReferenceDto();
-                        addedCocktailReference.setCocktailId(cocktail.get().getId());
-                        addedCocktailReferences.add(addedCocktailReference);
-                    }
-                }
-            }
+            ShoppingListEntity shoppingListEntity = shoppingList.get();
+            for(CocktailReferenceDto cocktailRef : cocktailRefs)
+                addCocktailToShoppingListEntity(cocktailRef, shoppingListEntity, addedCocktailRefs);
+            shoppingListRepository.save(shoppingListEntity);
         }
 
-        return addedCocktailReferences;
+        return addedCocktailRefs;
     }
 
     private List<String> getIngredients(ShoppingListEntity shoppingListEntity) {
@@ -108,6 +96,21 @@ public class ShoppingListService {
                     .distinct()
                     .collect(Collectors.toList());
             return ingredients;
+        }
+    }
+
+    private void addCocktailToShoppingListEntity(CocktailReferenceDto cocktailRef,
+            ShoppingListEntity shoppingListEntity, List<CocktailReferenceDto> addedCocktailRefs) {
+        // valid cocktail reference ?
+        Optional<CocktailEntity> cocktail = cocktailRepository.findById(cocktailRef.getCocktailId());
+        if(cocktail.isPresent()) {
+            Set<CocktailEntity> cocktails = shoppingListEntity.getCocktails();
+            if(cocktails == null) {
+                cocktails = new HashSet<>();
+            }
+            cocktails.add(cocktail.get());
+            shoppingListEntity.setCocktails(cocktails);
+            addedCocktailRefs.add(cocktailRef);
         }
     }
 
