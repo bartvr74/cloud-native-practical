@@ -55,7 +55,7 @@ public class GroceriesSecurity extends WebSecurityConfigurerAdapter {
         httpSecurity.servletApi();
         httpSecurity.cors().disable();
         httpSecurity.authorizeRequests().mvcMatchers("/cocktails/**").permitAll();
-        httpSecurity.authorizeRequests().mvcMatchers("//shopping-lists/**").permitAll(); // todo change authn
+        httpSecurity.authorizeRequests().mvcMatchers("/shopping-lists/**").permitAll(); // todo change authn
         httpSecurity.authorizeRequests().anyRequest().denyAll();
     }
 
