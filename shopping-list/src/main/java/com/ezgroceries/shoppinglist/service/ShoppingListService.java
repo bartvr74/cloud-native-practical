@@ -98,15 +98,17 @@ public class ShoppingListService {
 
     private List<String> getIngredients(ShoppingListEntity shoppingListEntity) {
         Set<CocktailEntity> cocktails = shoppingListEntity.getCocktails();
-        if(cocktails != null) {
-            List<String> ingredients = shoppingListEntity.getCocktails().stream()
-                .filter(entity -> entity != null)
-                .flatMap(entity->entity.getIngredients().stream())
-                .distinct()
-                .collect(Collectors.toList());
+        if(cocktails == null) {
+            return null;
+        } else {
+            List<String> ingredients = shoppingListEntity.getCocktails()
+                    .stream()
+                    .filter(entity -> entity != null)
+                    .flatMap(entity -> entity.getIngredients().stream())
+                    .distinct()
+                    .collect(Collectors.toList());
             return ingredients;
         }
-        return null;
     }
 
 }
