@@ -41,20 +41,23 @@ public class ShoppingListService {
     }
 
     public ShoppingListResourceResponse get(UUID id) {
+        ShoppingListResourceResponse shoppingListResourceResponse = null;
         Optional<ShoppingListEntity> shoppingListEntity = shoppingListRepository.findById(id);
         if(shoppingListEntity.isPresent()) {
             List<String> ingredients = getIngredients(shoppingListEntity.get());
-            return new ShoppingListResourceResponse(
+            shoppingListResourceResponse = new ShoppingListResourceResponse(
                     shoppingListEntity.get().getId(),
                     shoppingListEntity.get().getName(),
                     ingredients);
         }
-        return null;
+
+        return shoppingListResourceResponse;
     }
 
     public List<ShoppingListResourceResponse> getAll() {
         Iterable<ShoppingListEntity> shoppingLists = shoppingListRepository.findAll();
         List<ShoppingListResourceResponse> lists = new ArrayList<>();
+
         for(ShoppingListEntity shoppingList : shoppingLists) {
             List<String> ingredients = getIngredients(shoppingList);
             ShoppingListResourceResponse shoppingListResource =
@@ -85,18 +88,18 @@ public class ShoppingListService {
     }
 
     private List<String> getIngredients(ShoppingListEntity shoppingListEntity) {
+        List<String> foundIngredients = null;
         Set<CocktailEntity> cocktails = shoppingListEntity.getCocktails();
-        if(cocktails == null) {
-            return null;
-        } else {
-            List<String> ingredients = shoppingListEntity.getCocktails()
+        if(cocktails != null && !cocktails.isEmpty()) {
+            foundIngredients = shoppingListEntity.getCocktails()
                     .stream()
                     .filter(entity -> entity != null)
                     .flatMap(entity -> entity.getIngredients().stream())
                     .distinct()
                     .collect(Collectors.toList());
-            return ingredients;
         }
+
+        return foundIngredients;
     }
 
     private void addCocktailToShoppingListEntity(CocktailReferenceDto cocktailRef,
