@@ -10,8 +10,6 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.User.UserBuilder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.firewall.StrictHttpFirewall;
@@ -29,8 +27,6 @@ public class GroceriesSecurity extends WebSecurityConfigurerAdapter {
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder authnManagerBuilder) throws Exception {
-        PasswordEncoder passwordEncoder = passwordEncoder();
-        UserBuilder users = User.builder().passwordEncoder((password) -> passwordEncoder.encode(password));
         authnManagerBuilder
                 .jdbcAuthentication()
                 .dataSource(dataSource);
