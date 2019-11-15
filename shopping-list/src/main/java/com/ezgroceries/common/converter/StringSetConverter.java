@@ -1,4 +1,4 @@
-package com.ezgroceries.cocktail.persistence.entity;
+package com.ezgroceries.common.converter;
 
 import java.util.Arrays;
 import java.util.HashSet;

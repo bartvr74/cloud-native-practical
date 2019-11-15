@@ -1,5 +1,6 @@
 package com.ezgroceries.cocktail.persistence.entity;
 
+import com.ezgroceries.common.converter.StringSetConverter;
 import com.ezgroceries.shoppinglist.persistence.entity.ShoppingListEntity;
 import java.util.Set;
 import java.util.UUID;
